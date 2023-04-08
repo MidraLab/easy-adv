@@ -1,7 +1,7 @@
 ﻿name: Release
 
 env:
-  TARGET_FILE: ./Assets/Fungus/package.json
+  TARGET_FILE: ./Assets/EasyADV/Scripts/package.json
   FILE_NAME: "EasyADV"
   BUILD_METHOD: "PackageExporter.Export"
 
