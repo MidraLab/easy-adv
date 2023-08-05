@@ -11,6 +11,9 @@ using UnityEngine;
 
 namespace EasyADV.Editor
 {
+    /// <summary>
+    ///    シナリオを更新するためのクラス
+    /// </summary>
     public partial class EditScenario
     {
         private static void DeleteVoice(bool isUpdateVoice)
