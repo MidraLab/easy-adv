@@ -29,11 +29,10 @@ const soundFolder = "1pXyls5L5T_uWcw4lJyOtoCtXtm-8GynC"
 1. [EasyADV.unitypackage](https://github.com/MidraLab/easy-adv/releases)をダウンロードする
 2. [Fungus.unitypackage](https://github.com/MidraLab/fungus/releases)をダウンロードする
 3. Unityプロジェクトに1,2をimportする
-4. 以下のフォルダを任意の場所に作成する
-   - `キャラクター画像フォルダ`
-   - `背景画像フォルダ`
-   - `BGMフォルダ`
-   - `キャラボイスフォルダ`
+4. 以下のフォルダに画像、音声を配置する
+   - `Asset/EasyADV/CharacterImage`
+   - `Asset/EasyADV/BackgroundImage`
+   - `Asset/EasyADV/Sound`
 5. シーン上の任意のオブジェクトに`UpdateScenarioFromGoogleSheet`をアタッチする。このときに4で作成したフォルダパスを設定する
 
 ![img.png](Docs/inspector.png)
