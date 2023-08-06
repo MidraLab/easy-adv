@@ -32,7 +32,7 @@ const soundFolder = "1pXyls5L5T_uWcw4lJyOtoCtXtm-8GynC"
 
 1. [EasyADV.unitypackage](https://github.com/MidraLab/easy-adv/releases)をダウンロードする
 2. [Fungus.unitypackage](https://github.com/MidraLab/fungus/releases)をダウンロードする
-3. Unityプロジェクトに1,2をimportする
+3. Unityプロジェクトに1,2,[UniTask](https://github.com/Cysharp/UniTask)を追加する
 4. `Tools/EasyADV/Setup`を実行して、開発環境をセットアップする。
 5. 以下のフォルダに画像、音声を配置する
     - `Asset/EasyADV/CharacterImage`
