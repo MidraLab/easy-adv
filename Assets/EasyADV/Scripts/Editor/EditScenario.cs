@@ -52,9 +52,6 @@ namespace EasyADV.Editor
             _characterImageFolderPath = Application.dataPath + "/EasyADV/CharacterImage";
             _backgroundImageFolderPath = Application.dataPath + "/EasyADV/BackgroundImage";
             _bgmFolderPath = Application.dataPath + "/EasyADV/Sound";
-            _isUpdateVoiceProperty = serializedObject.FindProperty("isUpdateVoice").boolValue;
-            _voiceStartIndex = serializedObject.FindProperty("voiceStartIndex").intValue;
-            _voiceFolderPath = serializedObject.FindProperty("voiceFolderPath").stringValue;
 
             if (GUILayout.Button(new GUIContent("Update Scenario")))
             {

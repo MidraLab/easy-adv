@@ -1,8 +1,8 @@
 ﻿{
   "name": "com.midralab.easy-adv",
   "displayName": "Easy ADV",
-  "version": "0.0.1",
-  "unity": "2022.2",
+  "version": "0.0.3",
+  "unity": "2022.3",
   "description": "Library for easier ADV production using Fungus and Google Sheet",
 
   "keywords": [
