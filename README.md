@@ -5,11 +5,14 @@ Unityで ADVを作成する際に Fungusを使ってより簡単に作成でき�
 # 使い方
 
 ## シナリオ環境
-1. [GoogleSheet](https://docs.google.com/spreadsheets/d/1k2AGDMgL6sLlIwmGZ5oQH2knIRoIAUhfyIYyVp93Nh0/edit?usp=share_link)をコピーする
+
+1. [GoogleSheet](https://docs.google.com/spreadsheets/d/1k2AGDMgL6sLlIwmGZ5oQH2knIRoIAUhfyIYyVp93Nh0/edit?usp=share_link)
+   をコピーする
 2. 以下のように3つのフォルダを作成する
-  - `sounds`
-  - `characterImage`
-  - `backgroundImage`
+
+- `sounds`
+- `characterImage`
+- `backgroundImage`
 
 ![img.png](Docs/copy_files.png)
 
@@ -26,18 +29,17 @@ const soundFolder = "1pXyls5L5T_uWcw4lJyOtoCtXtm-8GynC"
 4. Apps Scriptをデプロイして、ウェブアプリURLを取得する
 
 ## Unity環境
+
 1. [EasyADV.unitypackage](https://github.com/MidraLab/easy-adv/releases)をダウンロードする
 2. [Fungus.unitypackage](https://github.com/MidraLab/fungus/releases)をダウンロードする
 3. Unityプロジェクトに1,2をimportする
-4. 以下のフォルダに画像、音声を配置する
-   - `Asset/EasyADV/CharacterImage`
-   - `Asset/EasyADV/BackgroundImage`
-   - `Asset/EasyADV/Sound`
-5. シーン上の任意のオブジェクトに`UpdateScenarioFromGoogleSheet`をアタッチする。このときに4で作成したフォルダパスを設定する
+4. `Tools/EasyADV/Setup`を実行して、開発環境をセットアップする。
+5. 以下のフォルダに画像、音声を配置する
+    - `Asset/EasyADV/CharacterImage`
+    - `Asset/EasyADV/BackgroundImage`
+    - `Asset/EasyADV/Sound`
 
-![img.png](Docs/inspector.png)
-
-6. `ScenarioSheetData.cs`の以下の変数を設定する
+6`ScenarioSheetData.cs`の以下の変数を設定する
 
 ```cs
 public static class ScenarioSheetData
@@ -49,4 +51,4 @@ public static class ScenarioSheetData
 }
 ```
 
-7. Google Sheetにシナリオを記載後、`UpdateScenarioFromGoogleSheet`の`Update`ボタンを押す
+7Google Sheetにシナリオを記載後、`UpdateScenarioFromGoogleSheet`の`Update`ボタンを押す
