@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace EasyADV.DataModel
 {
+    /// <summary>
+    ///    シナリオデータ
+    /// </summary>
     [Serializable]
     public class ScenarioData
     {
@@ -11,10 +14,12 @@ namespace EasyADV.DataModel
         public string characterName;
         public string command;
         public string content;
-        public string description;
         public string sound;
     }
 
+    /// <summary>
+    ///   シナリオデータリスト
+    /// </summary>
     [Serializable]
     public class ScenarioDataList
     {

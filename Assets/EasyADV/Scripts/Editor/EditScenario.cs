@@ -18,7 +18,7 @@ using Menu = Fungus.Menu;
 namespace EasyADV.Editor
 {
     [CustomEditor(typeof(UpdateScenarioFromGoogleSheet))]
-    public partial class EditScenario : UnityEditor.Editor
+    public class EditScenario : UnityEditor.Editor
     {
         private const string SheetName = ScenarioSheetData.MainSheet;
 
@@ -59,7 +59,6 @@ namespace EasyADV.Editor
                 var scenarioData = await DownloadScenarioData(SheetName);
                 CacheComponents();
                 DeleteAllCommand();
-                DeleteVoice(_isUpdateVoiceProperty);
                 UpdateCharacterInfo(scenarioData);
                 await UpdateConversationBlock(scenarioData, BlockName);
                 Debug.Log("Update Scenario");
@@ -149,28 +148,6 @@ namespace EasyADV.Editor
                     commandSay._Character = _characterListInHierarchy
                         .FirstOrDefault(x => x.Key == scenarioData.characterName).Value;
                     commandSay.ItemId = blockIndex + 1;
-
-                    if (!string.IsNullOrEmpty(scenarioData.characterName))
-                    {
-                        var inputText = scenarioData.content.Replace("「", "").Replace("」", "");
-                        if (!IsSilentText(inputText))
-                        {
-                            if (_isUpdateVoiceProperty && _voiceStartIndex <= blockIndex)
-                            {
-                                commandSay.VoiceOverClip =
-                                    await GetVoiceClip(scenarioData.characterName, inputText, blockIndex,
-                                        _cancellationTokenSource.Token);
-                                await UniTask.Delay(TimeSpan.FromSeconds(1f),
-                                    cancellationToken: _cancellationTokenSource.Token);
-                            }
-                            else
-                            {
-                                var savePath = Path.Combine("Assets", _voiceFolderPath,
-                                    $"{blockIndex}.wav");
-                                commandSay.VoiceOverClip = AssetDatabase.LoadAssetAtPath<AudioClip>(savePath);
-                            }
-                        }
-                    }
 
                     block.CommandList.Add(commandSay);
                     break;
