@@ -2,13 +2,10 @@
 
 namespace EasyADV.Scripts
 {
+    /// <summary>
+    ///    Googleスプレッドシートからシナリオを更新するためのクラス
+    /// </summary>
     public class UpdateScenarioFromGoogleSheet : MonoBehaviour
     {
-        [SerializeField] private string characterImageFolderPath;
-        [SerializeField] private string backgroundImageFolderPath;
-        [SerializeField] private string bgmFolderPath;
-        [SerializeField] private bool isUpdateVoice;
-        [SerializeField] private int voiceStartIndex;
-        [SerializeField] private string voiceFolderPath;
     }
 }

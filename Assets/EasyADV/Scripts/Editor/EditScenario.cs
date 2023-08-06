@@ -18,7 +18,7 @@ using Menu = Fungus.Menu;
 namespace EasyADV.Editor
 {
     [CustomEditor(typeof(UpdateScenarioFromGoogleSheet))]
-    public partial class EditScenario : UnityEditor.Editor
+    public class EditScenario : UnityEditor.Editor
     {
         private const string SheetName = ScenarioSheetData.MainSheet;
 
@@ -49,12 +49,9 @@ namespace EasyADV.Editor
             serializedObject.Update();
 
             // serializedObjectからSampleComponentのプロパティを取得
-            _characterImageFolderPath = serializedObject.FindProperty("characterImageFolderPath").stringValue;
-            _backgroundImageFolderPath = serializedObject.FindProperty("backgroundImageFolderPath").stringValue;
-            _bgmFolderPath = serializedObject.FindProperty("bgmFolderPath").stringValue;
-            _isUpdateVoiceProperty = serializedObject.FindProperty("isUpdateVoice").boolValue;
-            _voiceStartIndex = serializedObject.FindProperty("voiceStartIndex").intValue;
-            _voiceFolderPath = serializedObject.FindProperty("voiceFolderPath").stringValue;
+            _characterImageFolderPath = Application.dataPath + "/EasyADV/CharacterImage";
+            _backgroundImageFolderPath = Application.dataPath + "/EasyADV/BackgroundImage";
+            _bgmFolderPath = Application.dataPath + "/EasyADV/Sound";
 
             if (GUILayout.Button(new GUIContent("Update Scenario")))
             {
@@ -62,19 +59,25 @@ namespace EasyADV.Editor
                 var scenarioData = await DownloadScenarioData(SheetName);
                 CacheComponents();
                 DeleteAllCommand();
-                DeleteVoice(_isUpdateVoiceProperty);
                 UpdateCharacterInfo(scenarioData);
                 await UpdateConversationBlock(scenarioData, BlockName);
                 Debug.Log("Update Scenario");
             }
         }
 
+        /// <summary>
+        /// コンポーネントをキャッシュする
+        /// </summary>
         private static void CacheComponents()
         {
             _flowchart = FindObjectOfType<Flowchart>();
             _blocks = _flowchart.GetComponents<Block>().ToList();
         }
 
+        /// <summary>
+        /// キャラクターの情報を更新する
+        /// </summary>
+        /// <param name="scenarioDataList"></param>
         private void UpdateCharacterInfo(ScenarioDataList scenarioDataList)
         {
             var characters = FindObjectsOfType<Character>().ToList();
@@ -95,6 +98,11 @@ namespace EasyADV.Editor
             }
         }
 
+        /// <summary>
+        /// シナリオデータをダウンロードする
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <returns></returns>
         private static async UniTask<ScenarioDataList> DownloadScenarioData(string sheetName)
         {
             return await GetScenarioFromSheet.GetGameInfo<ScenarioDataList>(ScenarioSheetData.SheetURL, sheetName);
@@ -121,6 +129,13 @@ namespace EasyADV.Editor
             }
         }
 
+        /// <summary>
+        /// Flowchartにブロック(コマンド)を追加する
+        /// </summary>
+        /// <param name="scenarioData"></param>
+        /// <param name="block"></param>
+        /// <param name="blockIndex"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         private async UniTask AddBlock(ScenarioData scenarioData, Block block, int blockIndex)
         {
             if (string.IsNullOrEmpty(scenarioData.command)) return;
@@ -133,28 +148,6 @@ namespace EasyADV.Editor
                     commandSay._Character = _characterListInHierarchy
                         .FirstOrDefault(x => x.Key == scenarioData.characterName).Value;
                     commandSay.ItemId = blockIndex + 1;
-
-                    if (!string.IsNullOrEmpty(scenarioData.characterName))
-                    {
-                        var inputText = scenarioData.content.Replace("「", "").Replace("」", "");
-                        if (!IsSilentText(inputText))
-                        {
-                            if (_isUpdateVoiceProperty && _voiceStartIndex <= blockIndex)
-                            {
-                                commandSay.VoiceOverClip =
-                                    await GetVoiceClip(scenarioData.characterName, inputText, blockIndex,
-                                        _cancellationTokenSource.Token);
-                                await UniTask.Delay(TimeSpan.FromSeconds(1f),
-                                    cancellationToken: _cancellationTokenSource.Token);
-                            }
-                            else
-                            {
-                                var savePath = Path.Combine("Assets", _voiceFolderPath,
-                                    $"{blockIndex}.wav");
-                                commandSay.VoiceOverClip = AssetDatabase.LoadAssetAtPath<AudioClip>(savePath);
-                            }
-                        }
-                    }
 
                     block.CommandList.Add(commandSay);
                     break;
@@ -209,6 +202,9 @@ namespace EasyADV.Editor
             }
         }
 
+        /// <summary>
+        /// Flowchartのブロックを削除する
+        /// </summary>
         private static void DeleteAllCommand()
         {
             foreach (var (deleteBlock, _) in _blocks.Select((info, index) => (info, index)))
