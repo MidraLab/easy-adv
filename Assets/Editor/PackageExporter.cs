@@ -3,6 +3,9 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+///    パッケージの書き出しを行うクラス
+/// </summary>
 public static class PackageExporter
 {
     private const string RootDirectory = "Assets/EasyADV";
@@ -12,7 +15,7 @@ public static class PackageExporter
     ///     パッケージの書き出し(エディタ上でのテスト用)
     ///     メニュー 「Tools > Export Unitypackage Test」をクリックで実行
     /// </summary>
-    [MenuItem("Tools/Export Unitypackage Test")]
+    [MenuItem("Tools/EasyADV/Export Unitypackage")]
     public static void ExportTestOnEditor()
     {
         var exportPath = EditorUtility.SaveFilePanel
@@ -35,6 +38,11 @@ public static class PackageExporter
         CreatePackage(RootDirectory, $"build/{FileName}.unitypackage");
     }
 
+    /// <summary>
+    ///    パッケージの書き出し
+    /// </summary>
+    /// <param name="rootDirectory"></param>
+    /// <param name="exportPath"></param>
     private static void CreatePackage(string rootDirectory, string exportPath)
     {
         SafeCreateDirectory(exportPath);
@@ -51,6 +59,11 @@ public static class PackageExporter
         return Directory.CreateDirectory(diParent.FullName);
     }
 
+    /// <summary>
+    ///   指定したディレクトリ以下の全てのファイルのパスを取得する
+    /// </summary>
+    /// <param name="root"></param>
+    /// <returns></returns>
     private static string[] GetAllAssetsAtPath(string root)
     {
         return Directory.GetFiles(root, "*", SearchOption.AllDirectories)
